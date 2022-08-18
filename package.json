@@ -23,5 +23,6 @@
 	"dependencies": {
 		"eslint": "^8.21.0",
 		"web3": "^1.7.5"
-	}
+	},
+	"packageManager": "yarn@3.2.2"
 }
