@@ -1,4 +1,5 @@
-export const abiERC20 = [
+import { AbiItem } from "web3-utils";
+export const abiERC20: AbiItem[] = [
 	{
 		constant: true,
 		inputs: [],
@@ -269,4 +270,4 @@ export const abiERC20 = [
 		name: "Approval",
 		type: "event"
 	}
-] as const;
+];
