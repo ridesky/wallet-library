@@ -1,40 +1,25 @@
 /**
  * Extensions for LocalStorage
  */
-type Consturctor = { new (...args: any[]): any };
-const isSupported = typeof globalThis !== "undefined" && globalThis.localStorage ? true : false;
 
-export function getStorage(keyName: string): string | null {
-	if (!isSupported) {
-		undefined;
-	}
-	return localStorage.getItem(keyName);
-}
+import { IInitStorage } from "../types/common";
 
-export function setStorage(keyName: string, keyValue: string) {
-	if (!isSupported) {
-		undefined;
-	}
-	localStorage.setItem(keyName, keyValue);
-}
+const isSupportedLocalStorage = typeof globalThis !== "undefined" && globalThis.localStorage ? true : false;
 
-/**
- * decorator to be continued
- * @param keyName
- * @returns
+/** Root keyName of localStorage */
+const STORAGE_KEY_NAME = "WalletLibrary";
+const storage = localStorage.getItem(STORAGE_KEY_NAME) || "{}";
+
+/***
+ * The value of "STORAGE_KEY_NAME" in localStorage
+ * Recommend to store this return value in state of "vuex/redux",
+ * when the value changes, update the state of the vuex/redux in real time.
+ * @author Tianqi Zou
  */
-export function dStorage(keyName: string) {
-	if (!isSupported) {
-		undefined;
-	}
-	return function <T extends Consturctor>(constructor: T) {
-		return class extends constructor {
-			getStorage() {
-				return localStorage.getItem(keyName);
-			}
-			setStorage(keyValue: string) {
-				localStorage.setItem(keyName, keyValue);
-			}
-		};
-	};
+export function getStorage(): IInitStorage {
+	return JSON.parse(storage);
+}
+
+function setStorage(storage: IInitStorage) {
+	localStorage.setItem(STORAGE_KEY_NAME, JSON.stringify(storage));
 }

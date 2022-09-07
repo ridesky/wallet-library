@@ -10,6 +10,7 @@ module.exports = {
 		"no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
 		// semi: ["error", "never"],
 		// quotes: ["error", "single"],
-		"prettier/prettier": "error"
+		"prettier/prettier": "error",
+		"@typescript-eslint/no-explicit-any": "error"
 	}
 };

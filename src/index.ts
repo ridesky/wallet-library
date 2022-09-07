@@ -1,5 +1,5 @@
 import WalletManager from "./managers/WalletManager";
-
+import { IInitStorage } from "./types/common";
 /**
  *
  */
@@ -12,5 +12,9 @@ export class SeekWalletLibrary {
 		return this.instance;
 	}
 
-	walletManager = WalletManager.getInstance();
+	// walletManager = WalletManager.getInstance();
+}
+
+function setupManager(initStorage: IInitStorage) {
+	//
 }
