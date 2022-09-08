@@ -5,7 +5,6 @@ export interface BaseStorage {
 
 export class BaseManager<S extends BaseStorage> {
 	protected _storage: S;
-	defaultStorage: S = {} as S;
 
 	constructor(storage?: S) {
 		this._storage = storage as S;

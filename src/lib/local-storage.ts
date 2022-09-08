@@ -6,20 +6,26 @@ import { IInitStorage } from "../types/common";
 
 const isSupportedLocalStorage = typeof globalThis !== "undefined" && globalThis.localStorage ? true : false;
 
-/** Root keyName of localStorage */
-const STORAGE_KEY_NAME = "WalletLibrary";
-const storage = localStorage.getItem(STORAGE_KEY_NAME) || "{}";
+/** The root keyName of localStorage */
+const ROOT_KEYNAME_OF_STORAGE = "WalletLibrary";
 
 /***
- * The value of "STORAGE_KEY_NAME" in localStorage
- * Recommend to store this return value in state of "vuex/redux",
- * when the value changes, update the state of the vuex/redux in real time.
+ * The value of "ROOT_KEYNAME_OF_STORAGE" in localStorage
+ * It is recommended to put the return value in state of vuex/redux and get it at any time for better performance.
+ * And when the value(in localStorage) changes, update the state of the vuex/redux in real time.
  * @author Tianqi Zou
  */
-export function getStorage(): IInitStorage {
-	return JSON.parse(storage);
+export function getRootStorage(): IInitStorage {
+	const storageString: string = localStorage.getItem(ROOT_KEYNAME_OF_STORAGE) || "{}";
+	const storage: IInitStorage = JSON.parse(storageString) as IInitStorage;
+	return storage;
+}
+
+export function getStorageByName(storageName: keyof IInitStorage): IInitStorage[keyof IInitStorage] {
+	const storage = getRootStorage();
+	return storage[storageName];
 }
 
 function setStorage(storage: IInitStorage) {
-	localStorage.setItem(STORAGE_KEY_NAME, JSON.stringify(storage));
+	localStorage.setItem(ROOT_KEYNAME_OF_STORAGE, JSON.stringify(storage));
 }

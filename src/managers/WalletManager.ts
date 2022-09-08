@@ -1,6 +1,6 @@
 import { Account, Wallet, Identity } from "themis-ts-sdk";
-import { SafeAny } from "../types/common";
-// import { getStorage, setStorage } from "../lib/local-storage";
+import { IInitStorage, SafeAny } from "../types/common";
+import { getStorageByName } from "../lib/local-storage";
 import { BaseManager } from "./BaseManager";
 
 /**
@@ -28,7 +28,7 @@ export interface IWalletStorage {
 	[key: string]: SafeAny | SafeAny[];
 }
 
-export default class WalletManager extends BaseManager<IWalletStorage> {
+export class WalletManager extends BaseManager<IWalletStorage> {
 	static instance: WalletManager;
 	static getInstance(storage: IWalletStorage) {
 		if (!this.instance) {
@@ -37,7 +37,7 @@ export default class WalletManager extends BaseManager<IWalletStorage> {
 		return this.instance;
 	}
 
-	private storageName = "WalletStorage";
+	static storageName: keyof IInitStorage = "WalletStorage";
 	public wallet?: Wallet;
 
 	constructor(storage?: IWalletStorage) {
@@ -46,18 +46,16 @@ export default class WalletManager extends BaseManager<IWalletStorage> {
 		this.loadWallet();
 	}
 
-	// get storage() {
-	// 	return getStorage(this.storageName) || "";
-	// }
+	get storage() {
+		return getStorageByName(WalletManager.storageName) as IWalletStorage;
+	}
 	// set storage(keyValue: string) {
 	// 	setStorage(this.storageName, keyValue);
 	// }
 
 	/** Loads wallet from storage on startup */
 	loadWallet() {
-		if (this._storage) {
-			this.wallet = Wallet.fromWalletFile(this._storage);
-		}
+		this._storage && (this.wallet = Wallet.fromWalletFile(this._storage));
 	}
 
 	initWallet(walletName: string) {

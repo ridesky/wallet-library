@@ -14,5 +14,6 @@ export type SafeAny<T = object> =
 /** Initialize the wallet Build the data format for each instance storage */
 // TODO Handling the case when the parameter is empty
 export interface IInitStorage {
-	WalletManager: IWalletStorage;
+	WalletStorage: IWalletStorage;
+	NetworkStorage: string;
 }
